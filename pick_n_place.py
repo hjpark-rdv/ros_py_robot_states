@@ -89,13 +89,54 @@ class PickNPlaceTutorial():
     def show_current_pos(self):
         pos_values = self.robot_group.get_current_pose()
         print pos_values
+    def go_cup_ready(self):
+        move_group = self.robot_group
+        pose_goal = geometry_msgs.msg.Pose()
+        pose_goal.orientation.w = 0.697164469105
+        pose_goal.orientation.x = 0.716618448965
+        pose_goal.orientation.y = -0.0185623033006
+        pose_goal.orientation.z = -0.00866847830944
+
+        pose_goal.position.x = -0.213759464511
+        pose_goal.position.y = -0.473728179994
+        pose_goal.position.z = 0.899694597225
+
+        move_group.set_pose_target(pose_goal)
+        move_group.go()
+
+    def go_cup_pick(self):
+        move_group = self.robot_group
+        pose_goal = geometry_msgs.msg.Pose()
+        pose_goal.orientation.w = 0.697164469105
+        pose_goal.orientation.x = 0.716618448965
+        pose_goal.orientation.y = -0.0185623033006
+        pose_goal.orientation.z = -0.00866847830944
+
+        pose_goal.position.x = -0.213759464511
+        pose_goal.position.y = -0.593728179994
+        pose_goal.position.z = 0.899694597225
+
+        move_group.set_pose_target(pose_goal)
+        move_group.go()
+    
+    #def go_cup_grip(self):
 def main():
     try:
         pnp = PickNPlaceTutorial()
-        while True:
-            pnp.show_current_joint()
-            pnp.show_current_pos()
-            raw_input()
+        pnp.show_current_joint()
+        pnp.show_current_pos()
+        while True:            
+            input = raw_input()
+            if( input == '1'):
+                pnp.go_cup_ready()
+            elif( input == '2'):
+                pnp.go_cup_pick()                
+            elif( input == 'q'):
+                break
+            else:
+                pnp.show_current_joint()
+                pnp.show_current_pos()
+            
         
     except rospy.ROSInterruptException:
         return
